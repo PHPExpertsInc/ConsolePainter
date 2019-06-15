@@ -104,7 +104,6 @@ class ConsolePainter
     protected function applyFormat(string $apply, string $undo, ?string $text = null): self
     {
         $this->applied[] = $apply;
-//        array_unshift($this->reverseApplied, $undo);
         $this->reverseApplied[] = $undo;
 
         if ($text !== null) {
@@ -117,49 +116,37 @@ class ConsolePainter
     }
 
     // --- Stylers --- //
-    public function bold(?string $text = null)
+    public function bold(?string $text = null): self
     {
-        if (preg_match('/\[([0-9]+-;-)+$/', $this->line) === 1) {
-            $this->line .= "{$this->e}[";
-        }
-
         return $this->applyFormat(self::BOLD, self::UN_BOLD, $text);
     }
 
-    public function dim(?string $text = null)
+    public function dim(?string $text = null): self
     {
-        if (preg_match('/\[([0-9]+-;-)+$/', $this->line) === 1) {
-            $this->line .= "{$this->e}[";
-        }
-
         return $this->applyFormat(self::DIM, self::UN_DIM, $text);
     }
 
-    public function italics(?string $text = null)
+    public function italics(?string $text = null): self
     {
-        if (preg_match('/\[([0-9]+-;-)+$/', $this->line) === 1) {
-            $this->line .= "{$this->e}[";
-        }
-
         return $this->applyFormat(self::ITALICS, self::UN_ITALICS, $text);
     }
 
-    public function underlined(?string $text = null)
+    public function underlined(?string $text = null): self
     {
         return $this->applyFormat(self::UNDERLINE, self::UN_UNDERLINE, $text);
     }
 
-    public function blink(?string $text = null)
+    public function blink(?string $text = null): self
     {
         return $this->applyFormat(self::BLINK, self::UN_BLINK, $text);
     }
 
-    public function inverse(?string $text = null)
+    public function inverse(?string $text = null): self
     {
         return $this->applyFormat(self::INVERSE, self::UN_INVERSE, $text);
     }
 
-    public function hidden(?string $text = null)
+    public function hidden(?string $text = null): self
     {
         return $this->applyFormat(self::HIDDEN, self::UN_HIDDEN, $text);
     }
@@ -237,7 +224,7 @@ class ConsolePainter
 
     public function yellow(?string $text = null): self
     {
-        return $this->applyFormat(self::FG_YELLOW, self::FG_DEFAULT, $text);
+        return $this->applyFormat(self::FG_YELLOW, self::UN_BOLD . ';' . self::FG_DEFAULT, $text);
     }
 
     public function lightGray(?string $text = null): self
@@ -293,10 +280,6 @@ class ConsolePainter
 
     public function onDarkGray(?string $text = null): self
     {
-        if (preg_match('/\[([0-9]+-;-)+$/', $this->line) === 1) {
-            $this->line .= "{$this->e}[";
-        }
-
         return $this->applyFormat(self::BG_DARK_GRAY, self::BG_DEFAULT, $text);
     }
 
