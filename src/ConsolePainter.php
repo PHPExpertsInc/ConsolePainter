@@ -121,6 +121,11 @@ class ConsolePainter
         return $this->applyFormat(self::BOLD, self::UN_BOLD, $text);
     }
 
+    public function bolder(?string $text = null): self
+    {
+        return $this->applyFormat(self::UN_BOLD, '', $text);
+    }
+
     public function dim(?string $text = null): self
     {
         return $this->applyFormat(self::DIM, self::UN_DIM, $text);
