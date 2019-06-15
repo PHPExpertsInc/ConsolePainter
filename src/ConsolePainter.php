@@ -14,61 +14,8 @@
 
 namespace PHPExperts\ConsolePainter;
 
-class ConsolePainter
+class ConsolePainter implements ConsoleArtistGuild, ANSIColors
 {
-    protected const BOLD = '1';
-    protected const DIM = '2';
-    protected const ITALICS = '3';
-    protected const UNDERLINE = '4';
-    protected const BLINK = '5';
-    protected const INVERSE = '7';
-    protected const HIDDEN = '8';
-
-    protected const RESET = '0';
-    protected const UN_BOLD = '21';
-    protected const UN_DIM = '22';
-    protected const UN_ITALICS = '23';
-    protected const UN_UNDERLINE = '24';
-    protected const UN_BLINK = '25';
-    protected const UN_INVERSE = '27';
-    protected const UN_HIDDEN = '28';
-
-    protected const FG_DEFAULT = '39';
-    protected const FG_BLACK = '30';
-    protected const FG_DARK_GRAY = '90';
-    protected const FG_BLUE = '34';
-    protected const FG_LIGHT_BLUE = '94';
-    protected const FG_GREEN = '32';
-    protected const FG_LIGHT_GREEN = '92';
-    protected const FG_CYAN = '36';
-    protected const FG_LIGHT_CYAN = '96';
-    protected const FG_RED = '31';
-    protected const FG_LIGHT_RED = '91';
-    protected const FG_PURPLE = '35';
-    protected const FG_LIGHT_PURPLE = '95';
-    protected const FG_BROWN = '0;33';
-    protected const FG_YELLOW = '1;33';
-    protected const FG_LIGHT_GRAY = '37';
-    protected const FG_WHITE = '97';
-
-    protected const BG_DEFAULT = '49';
-    protected const BG_BLACK = '40';
-    protected const BG_RED = '41';
-    protected const BG_GREEN = '42';
-    protected const BG_YELLOW = '43';
-    protected const BG_BLUE = '44';
-    protected const BG_PURPLE = '45';
-    protected const BG_CYAN = '46';
-    protected const BG_LIGHT_GRAY = '47';
-    protected const BG_DARK_GRAY = '100';
-    protected const BG_LIGHT_RED = '101';
-    protected const BG_LIGHT_GREEN = '102';
-    protected const BG_LIGHT_YELLOW = '103';
-    protected const BG_LIGHT_BLUE = '104';
-    protected const BG_LIGHT_PURPLE = '105';
-    protected const BG_LIGHT_CYAN = '106';
-    protected const BG_WHITE = '107';
-
     public $e = "\e";
 
     /** @var array */
@@ -83,7 +30,7 @@ class ConsolePainter
     /** @var string */
     protected $text = '';
 
-    protected function applyFormatOrig(string $apply, string $undo, ?string $text = null): self
+    protected function applyFormatOrig(string $apply, string $undo, ?string $text = null): ConsoleArtistGuild
     {
         $this->line .= $apply . '-;-';
 
@@ -101,13 +48,15 @@ class ConsolePainter
         return $this;
     }
 
-    protected function applyFormat(string $apply, string $undo, ?string $text = null): self
+    protected function applyFormat(string $apply, string $undo, ?string $text = null): ConsoleArtistGuild
     {
         $this->applied[] = $apply;
         $this->reverseApplied[] = $undo;
 
         if ($text !== null) {
-            $this->text .= "{$this->e}[" . implode(';', $this->applied) . 'm'. $text . "{$this->e}[" . implode(';', $this->reverseApplied) . 'm';
+            $applied = implode(';', $this->applied);
+            $reversed = implode(';', $this->reverseApplied);
+            $this->text .= "{$this->e}[{$applied}m{$text}{$this->e}[{$reversed}m";
             $this->applied = [];
             $this->reverseApplied = [];
         }
@@ -116,209 +65,209 @@ class ConsolePainter
     }
 
     // --- Stylers --- //
-    public function bold(?string $text = null): self
+    public function bold(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BOLD, self::UN_BOLD, $text);
     }
 
-    public function bolder(?string $text = null): self
+    public function bolder(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::UN_BOLD, '', $text);
     }
 
-    public function dim(?string $text = null): self
+    public function dim(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::DIM, self::UN_DIM, $text);
     }
 
-    public function italics(?string $text = null): self
+    public function italics(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::ITALICS, self::UN_ITALICS, $text);
     }
 
-    public function underlined(?string $text = null): self
+    public function underlined(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::UNDERLINE, self::UN_UNDERLINE, $text);
     }
 
-    public function blink(?string $text = null): self
+    public function blink(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BLINK, self::UN_BLINK, $text);
     }
 
-    public function inverse(?string $text = null): self
+    public function inverse(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::INVERSE, self::UN_INVERSE, $text);
     }
 
-    public function hidden(?string $text = null): self
+    public function hidden(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::HIDDEN, self::UN_HIDDEN, $text);
     }
 
     // --- Foregrounds --- //
-    public function defaultColor(?string $text = null): self
+    public function defaultColor(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_DEFAULT, self::FG_DEFAULT, $text);
     }
 
-    public function black(?string $text = null): self
+    public function black(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_BLACK, self::FG_DEFAULT, $text);
     }
 
-    public function darkGray(?string $text = null): self
+    public function darkGray(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_DARK_GRAY, self::FG_DEFAULT, $text);
     }
 
-    public function blue(?string $text = null): self
+    public function blue(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_BLUE, self::FG_DEFAULT, $text);
     }
 
-    public function lightBlue(?string $text = null): self
+    public function lightBlue(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_LIGHT_BLUE, self::FG_DEFAULT, $text);
     }
 
-    public function green(?string $text = null): self
+    public function green(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_GREEN, self::FG_DEFAULT, $text);
     }
 
-    public function lightGreen(?string $text = null): self
+    public function lightGreen(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_LIGHT_GREEN, self::FG_DEFAULT, $text);
     }
 
-    public function cyan(?string $text = null): self
+    public function cyan(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_CYAN, self::FG_DEFAULT, $text);
     }
 
-    public function lightCyan(?string $text = null): self
+    public function lightCyan(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_LIGHT_CYAN, self::FG_DEFAULT, $text);
     }
 
-    public function red(?string $text = null): self
+    public function red(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_RED, self::FG_DEFAULT, $text);
     }
 
-    public function lightRed(?string $text = null): self
+    public function lightRed(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_LIGHT_RED, self::FG_DEFAULT, $text);
     }
 
-    public function purple(?string $text = null): self
+    public function purple(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_PURPLE, self::FG_DEFAULT, $text);
     }
 
-    public function lightPurple(?string $text = null): self
+    public function lightPurple(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_LIGHT_PURPLE, self::FG_DEFAULT, $text);
     }
 
-    public function brown(?string $text = null): self
+    public function brown(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_BROWN, self::FG_DEFAULT, $text);
     }
 
-    public function yellow(?string $text = null): self
+    public function yellow(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_YELLOW, self::UN_BOLD . ';' . self::FG_DEFAULT, $text);
     }
 
-    public function lightGray(?string $text = null): self
+    public function lightGray(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_LIGHT_GRAY, self::FG_DEFAULT, $text);
     }
 
-    public function white(?string $text = null): self
+    public function white(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::FG_WHITE, self::FG_DEFAULT, $text);
     }
 
     // --- Backgrounds --- //
-    public function onBlack(?string $text = null): self
+    public function onBlack(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_BLACK, self::BG_DEFAULT, $text);
     }
 
-    public function onRed(?string $text = null): self
+    public function onRed(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_RED, self::BG_DEFAULT, $text);
     }
 
-    public function onGreen(?string $text = null): self
+    public function onGreen(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_GREEN, self::BG_DEFAULT, $text);
     }
 
-    public function onYellow(?string $text = null): self
+    public function onYellow(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_YELLOW, self::BG_DEFAULT, $text);
     }
 
-    public function onBlue(?string $text = null): self
+    public function onBlue(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_BLUE, self::BG_DEFAULT, $text);
     }
 
-    public function onPurple(?string $text = null): self
+    public function onPurple(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_PURPLE, self::BG_DEFAULT, $text);
     }
 
-    public function onCyan(?string $text = null): self
+    public function onCyan(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_CYAN, self::BG_DEFAULT, $text);
     }
 
-    public function onLightGray(?string $text = null): self
+    public function onLightGray(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_GRAY, self::BG_DEFAULT, $text);
     }
 
-    public function onDarkGray(?string $text = null): self
+    public function onDarkGray(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_DARK_GRAY, self::BG_DEFAULT, $text);
     }
 
-    public function onLightRed(?string $text = null): self
+    public function onLightRed(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_RED, self::BG_DEFAULT, $text);
     }
 
-    public function onLightGreen(?string $text = null): self
+    public function onLightGreen(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_GREEN, self::BG_DEFAULT, $text);
     }
 
-    public function onLightYellow(?string $text = null): self
+    public function onLightYellow(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_YELLOW, self::BG_DEFAULT, $text);
     }
 
-    public function onLightBlue(?string $text = null): self
+    public function onLightBlue(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_BLUE, self::BG_DEFAULT, $text);
     }
 
-    public function onLightPurple(?string $text = null): self
+    public function onLightPurple(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_PURPLE, self::BG_DEFAULT, $text);
     }
 
-    public function onLightCyan(?string $text = null): self
+    public function onLightCyan(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_LIGHT_CYAN, self::BG_DEFAULT, $text);
     }
 
-    public function onWhite(?string $text = null): self
+    public function onWhite(?string $text = null): ConsoleArtistGuild
     {
         return $this->applyFormat(self::BG_WHITE, self::BG_DEFAULT, $text);
     }
