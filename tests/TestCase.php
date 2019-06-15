@@ -16,4 +16,17 @@ abstract class TestCase extends BaseTestCase
     {
         return in_array('--debug', $_SERVER['argv'], true);
     }
+
+    public function runBashTestCase(string $expected, callable $scenario)
+    {
+        $actual = $scenario();
+        $colorized = (string) $actual;
+        if (self::isDebugOn()) {
+            ob_end_flush();
+            echo "$colorized\n";
+            ob_start();
+        }
+
+        self::assertEquals($expected, $colorized);
+    }
 }

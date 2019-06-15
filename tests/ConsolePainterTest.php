@@ -34,57 +34,57 @@ class StylizationTest extends TestCase
     public function testCanBoldText()
     {
         $expected = "\e[1mText\e[21m\e[0m";
-        $actual = $this->p->bold('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->bold('Text');
+        });
     }
 
     public function testCanItalicizeText()
     {
         $expected = "\e[3mText\e[23m\e[0m";
-        $actual = $this->p->italics('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->italics('Text');
+        });
     }
 
     public function testCanUnderlineText()
     {
         $expected = "\e[4mText\e[24m\e[0m";
-        $actual = $this->p->underlined('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->underlined('Text');
+        });
     }
 
     public function testCanDimText()
     {
         $expected = "\e[2mText\e[22m\e[0m";
-        $actual = $this->p->dim('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->dim('Text');
+        });
     }
 
     public function testCanBlinkText()
     {
         $expected = "\e[5mText\e[25m\e[0m";
-        $actual = $this->p->blink('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->blink('Text');
+        });
     }
 
     public function testCanHideText()
     {
         $expected = "\e[8mText\e[28m\e[0m";
-        $actual = $this->p->hidden('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->hidden('Text');
+        });
     }
 
     public function testCanInvertTheTextStyle()
     {
         $expected = "\e[7mText\e[27m\e[0m";
-        $actual = $this->p->inverse('Text');
-
-        self::assertEquals($expected, (string) $actual);
+        self::runBashTestCase($expected, function (): ConsolePainter {
+            return $this->p->inverse('Text');
+        });
     }
 
     public function testAllCombinationsOfStylizationsWork()
