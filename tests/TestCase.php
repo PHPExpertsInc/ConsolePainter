@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
         return in_array('--debug', $_SERVER['argv'], true);
     }
 
-    public function runBashTestCase(string $expected, callable $scenario)
+    public function runBashTestCase(?string $expected, callable $scenario)
     {
         $actual = $scenario();
         $colorized = (string) $actual;
@@ -27,6 +27,10 @@ abstract class TestCase extends BaseTestCase
             ob_start();
         }
 
+        if ($expected === null) {
+            echo "$colorized\n";
+            dd("Expected: " . str_replace("\e", '\e', $colorized));
+        }
         self::assertEquals($expected, $colorized);
     }
 }
