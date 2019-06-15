@@ -88,6 +88,10 @@ class ConsolePainter
         $this->line .= $apply . '-;-';
 
         if ($text !== null) {
+            // If we get $text that already contains the reset code (\e[0m), then it almost certainly means that
+            // ConsolePainter has been called recursively. So let's strip that reset code out.
+            $text = str_replace("{$this->e}[0m", '', $text);
+
             // Remove the last '-;-'.
             $this->line = rtrim($this->line, '-;-') . 'm';
             $this->line .= $text;
