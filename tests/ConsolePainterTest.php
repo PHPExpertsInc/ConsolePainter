@@ -65,15 +65,17 @@ class StylizationTest extends TestCase
 
     public function testAllCombinationsOfStylizationsWork()
     {
-        ob_end_flush();
+        // We need to clear the PHPUnit output to properly visually inspect the console colors.
+        if (self::isDebugOn()) {
+            ob_end_flush();
+        }
+
         $stylizations = [
             'bold'       => '1',
             'italics'    => '3',
             'underlined' => '4',
             'dim'        => '2',
-//            'blink'      => '5',
             'inverse'    => '7',
-//            'hidden'     => '8',
         ];
 
         $allPossibleCombinations = [];
@@ -87,7 +89,8 @@ class StylizationTest extends TestCase
         array_multisort(array_map('count', $allPossibleCombinations), SORT_ASC, $allPossibleCombinations);
 
         $p = new ConsolePainter();
-//        $p->e = '\e';
+        // Uncomment this line to actually see what the color codes are.
+        //$p->e = '\e';
 
         foreach ($allPossibleCombinations as $index => $styles) {
             $code = '$p';
@@ -99,8 +102,6 @@ class StylizationTest extends TestCase
             }
             $code .= ";";
 
-            $expected = implode(';', array_keys($applied));
-//            dump('\e[' . $expected . 'm');
             $text = implode(' + ', $applied);
             $code = str_replace('();', "('$text');", $code);
 
@@ -108,45 +109,15 @@ class StylizationTest extends TestCase
                 dump($code);
             }
 
-            echo eval("return $code") . "\n";
+            if (self::isDebugOn()) {
+                echo eval("return $code") . "\n";
 
-            if (($index + 1) % 25 === 0) {
-                echo $p->yellow('Press ')->bold()->red('ENTER')->yellow('to continue...') . "\n";
-                $fh = fopen('php://stdin', 'r');
-                fgets($fh);
+                if (($index + 1) % 25 === 0) {
+                    echo $p->yellow('Press ')->bolder()->red('ENTER')->yellow(' to continue...') . "\n";
+                    $fh = fopen('php://stdin', 'r');
+                    fgets($fh);
+                }
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
