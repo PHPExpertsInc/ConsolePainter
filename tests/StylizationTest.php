@@ -123,7 +123,7 @@ class StylizationTest extends TestCase
                 $applied[$style] = $stylizations[$style];
             }
 
-            $code .= ";";
+            $code .= ';';
 
             $expectedOn = implode(';', array_column($applied, 0));
             $expectedOff = implode(';', array_column($applied, 1));

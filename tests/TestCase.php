@@ -1,5 +1,17 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of Console Painter, a PHP Experts, Inc., Project.
+ *
+ * Copyright © 2019 PHP Experts, Inc.
+ * Author: Theodore R. Smith <theodore@phpexperts.pro>
+ *   GPG Fingerprint: 4BF8 2613 1C34 87AC D28F  2AD8 EB24 A91D D612 5690
+ *   https://www.phpexperts.pro/
+ *   https://github.com/PHPExpertsInc/ConsolePainter
+ *
+ * This file is licensed under the MIT License.
+ */
+
 namespace PHPExperts\ConsolePainter\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -29,7 +41,7 @@ abstract class TestCase extends BaseTestCase
 
         if ($expected === null) {
             echo "$colorized\n";
-            dd("Expected: " . str_replace("\e", '\e', $colorized));
+            dd('Expected: ' . str_replace("\e", '\e', $colorized));
         }
         self::assertEquals($expected, $colorized);
     }
