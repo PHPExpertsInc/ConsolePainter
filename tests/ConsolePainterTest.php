@@ -26,14 +26,14 @@ class StylizationTest extends TestCase
     public function setUp(): void
     {
         $this->p = new ConsolePainter();
-        $this->p->e = '\e';
+        //$this->p->e = "\e";
 
         parent::setUp();
     }
 
     public function testCanBoldText()
     {
-        $expected = '\e[1mText\e[21m\e[0m';
+        $expected = "\e[1mText\e[21m\e[0m";
         $actual = $this->p->bold('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -41,7 +41,7 @@ class StylizationTest extends TestCase
 
     public function testCanItalicizeText()
     {
-        $expected = '\e[3mText\e[23m\e[0m';
+        $expected = "\e[3mText\e[23m\e[0m";
         $actual = $this->p->italics('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -49,7 +49,7 @@ class StylizationTest extends TestCase
 
     public function testCanUnderlineText()
     {
-        $expected = '\e[4mText\e[24m\e[0m';
+        $expected = "\e[4mText\e[24m\e[0m";
         $actual = $this->p->underlined('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -57,7 +57,7 @@ class StylizationTest extends TestCase
 
     public function testCanDimText()
     {
-        $expected = '\e[2mText\e[22m\e[0m';
+        $expected = "\e[2mText\e[22m\e[0m";
         $actual = $this->p->dim('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -65,7 +65,7 @@ class StylizationTest extends TestCase
 
     public function testCanBlinkText()
     {
-        $expected = '\e[5mText\e[25m\e[0m';
+        $expected = "\e[5mText\e[25m\e[0m";
         $actual = $this->p->blink('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -73,7 +73,7 @@ class StylizationTest extends TestCase
 
     public function testCanHideText()
     {
-        $expected = '\e[8mText\e[28m\e[0m';
+        $expected = "\e[8mText\e[28m\e[0m";
         $actual = $this->p->hidden('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -81,7 +81,7 @@ class StylizationTest extends TestCase
 
     public function testCanInvertTheTextStyle()
     {
-        $expected = '\e[7mText\e[27m\e[0m';
+        $expected = "\e[7mText\e[27m\e[0m";
         $actual = $this->p->inverse('Text');
 
         self::assertEquals($expected, (string) $actual);
@@ -89,17 +89,16 @@ class StylizationTest extends TestCase
 
     public function testAllCombinationsOfStylizationsWork()
     {
-        // We need to clear the PHPUnit output to properly visually inspect the console colors.
         if (self::isDebugOn()) {
             ob_end_flush();
         }
 
         $stylizations = [
-            'bold'       => '1',
-            'italics'    => '3',
-            'underlined' => '4',
-            'dim'        => '2',
-            'inverse'    => '7',
+            'bold'       => ['1', '21'],
+            'italics'    => ['3', '23'],
+            'underlined' => ['4', '24'],
+            'dim'        => ['2', '22'],
+            'inverse'    => ['7', '27'],
         ];
 
         $allPossibleCombinations = [];
@@ -114,27 +113,34 @@ class StylizationTest extends TestCase
 
         $p = new ConsolePainter();
         // Uncomment this line to actually see what the color codes are.
-        //$p->e = '\e';
+        //$p->e = "\e";
 
         foreach ($allPossibleCombinations as $index => $styles) {
             $code = '$p';
-
             $applied = [];
             foreach ($styles as $style) {
                 $code .= "->$style()";
-                $applied[$stylizations[$style]] = $style;
+                $applied[$style] = $stylizations[$style];
             }
+
             $code .= ";";
 
-            $text = implode(' + ', $applied);
+            $expectedOn = implode(';', array_column($applied, 0));
+            $expectedOff = implode(';', array_column($applied, 1));
+
+            $text = implode(' + ', array_keys($applied));
             $code = str_replace('();', "('$text');", $code);
 
             if (self::isDebugOn()) {
                 dump($code);
             }
 
+            $paintedText = (string) eval("return $code");
+            self::assertStringStartsWith("{$p->e}[{$expectedOn}m", $paintedText, 'An unexpected style was set.');
+            self::assertStringEndsWith("{$p->e}[{$expectedOff}m{$p->e}[0m", $paintedText, 'An unexpected undo style was set.');
+
             if (self::isDebugOn()) {
-                echo eval("return $code") . "\n";
+                echo $paintedText . "\n";
 
                 if (($index + 1) % 25 === 0) {
                     echo $p->yellow('Press ')->bolder()->red('ENTER')->yellow(' to continue...') . "\n";
