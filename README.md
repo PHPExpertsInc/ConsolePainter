@@ -1,39 +1,99 @@
-# Standard Skeleton Project
+# ConsolePainter
 
-[![TravisCI](https://travis-ci.org/phpexpertsinc/skeleton.svg?branch=master)](https://travis-ci.org/phpexpertsinc/skeleton)
-[![Maintainability](https://api.codeclimate.com/v1/badges/503cba0c53eb262c947a/maintainability)](https://codeclimate.com/github/phpexpertsinc/SimpleDTO/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/503cba0c53eb262c947a/test_coverage)](https://codeclimate.com/github/phpexpertsinc/SimpleDTO/test_coverage)
+[![TravisCI](https://travis-ci.org/phpexpertsinc/ConsolePainter.svg?branch=master)](https://travis-ci.org/phpexpertsinc/ConsolePainter)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1eef8c643548226efa69/test_coverage)](https://codeclimate.com/github/phpexpertsinc/ConsolePainter/test_coverage)
 
-Skeleton Project is a PHP Experts, Inc., Project meant to ease the creation of new projects.
+ConsolePainter is a PHP Experts, Inc., Project that enables easy color and stylization of ANSI terminals.
 
-It strives to conform to the Standard PHP Skeleton (https://github.com/php-pds/skeleton) wherever possible.
+It strives to conform to the standard ANSI terminal colors as documented at
+https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
-Read [**On Structuring PHP Projects**](https://blog.nikolaposa.in.rs/2017/01/16/on-structuring-php-projects/)
-for more.
-
-The configurer was inspired by https://www.binpress.com/building-project-skeletons-composer/
+![image](https://user-images.githubusercontent.com/1125541/59557043-0a774b00-8f95-11e9-87cb-223afd9130ca.png)
 
 ## Installation
 
 Via Composer
 
 ```bash
-composer create-project phpexperts/skeleton NewProject
+composer require phpexperts/console-painter
 ```
 
 ## Usage
 
-Install a project, then remove the directories you won't need, like `bin`.
+```php
+use PHPExperts\ConsolePainter\ConsolePainter;
 
-You should definitely edit the LICENSE and .travis.yml to be specific to your 
-project and update the tags at the top of the README.md.
+$p = new ConsolePainter();
 
-# Use cases
+// This is *REALLY* emphasized!
+echo "\t" . $p->italics('This is ') .
+    $p->bold('*') . $p->bold()->underlined()->yellow('*REALLY*') .
+    $p->bold()->onLightBlue(' emphasized*') . '!' . "\n";
 
- ✔ Rapidly start up a project right.  
- ✔ Less time spent on boilerplating a git repo.  
- ✔ Conforms to the most widely-deployed PHP layout.  
- ✔ Fully compatible with the Bettergist Collective recommendation.  
+echo $p->yellow('Press ')->bolder()->red('ENTER')->yellow(' to continue...') . "\n";
+
+echo "\n";
+
+// Draw the Red, White and Blue:
+echo $p->bolder()->red('Red')->dim(', ')->italics()->white('White ')->dim('and ')->blue('Blue') . "\n";
+```
+
+This will output:
+
+![image](https://user-images.githubusercontent.com/1125541/59557118-15cb7600-8f97-11e9-9a0f-dc0b50898f79.png)
+
+You can even make really complex ASCII art with it. Here is a derivation of 
+the European Union logo:
+
+![image](https://user-images.githubusercontent.com/1125541/59557060-7659b380-8f95-11e9-98df-2a82bbdaae72.png)
+
+## Demos
+
+### Basic styles:
+
+![image](https://user-images.githubusercontent.com/1125541/59557043-0a774b00-8f95-11e9-87cb-223afd9130ca.png)
+
+### Complex text styling
+
+![image](https://user-images.githubusercontent.com/1125541/59557055-50ccaa00-8f95-11e9-8fa5-d435efc5d688.png)
+
+### ASCII Art
+
+![image](https://user-images.githubusercontent.com/1125541/59557060-7659b380-8f95-11e9-98df-2a82bbdaae72.png)
+
+## Use cases
+
+ConsolePainter: Stylization  
+ ✔ Can bold text  
+ ✔ Can italicize text  
+ ✔ Can underline text  
+ ✔ Can dim text  
+ ✔ Can blink text  
+ ✔ Can hide text  
+ ✔ Can invert the text style  
+ ✔ All combinations of stylizations work  
+
+ConsolePainter: Foreground Colors  
+ ✔ Can make the text the default color  
+ ✔ Can make the text black  
+ ✔ Can make the text dark grey  
+ ✔ Can make the text blue  
+ ✔ Can make the text light blue  
+ ✔ Can make the text green  
+ ✔ Can make the text light green  
+ ✔ Can make the text cyan  
+ ✔ Can make the text light cyan  
+ ✔ Can make the text red  
+ ✔ Can make the text light red  
+ ✔ Can make the text purple  
+ ✔ Can make the text light purple  
+ ✔ Can make the text brown  
+ ✔ Can make the text yellow  
+ ✔ Can make the text light gray  
+ ✔ Can make the text white  
+ ✔ Can chain two or more colored words together  
+ ✔ Can chain two or more colored words together with a background  
+ ✔ Can make the european union logo  
 
 ## Testing
 
@@ -41,91 +101,7 @@ project and update the tags at the top of the README.md.
 phpunit --testdox
 ```
 
-## Stress Tested to 10 Levels Deep
-```$xslt
-"Level 1: Generating combinations for A"
-array:5 [
-  "Number of possibilities" => 2
-  "Time (ms)              " => 0.048160552978516
-  "Time (s)               " => 4.8160552978516E-5
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 2: Generating combinations for A, B"
-array:5 [
-  "Number of possibilities" => 4
-  "Time (ms)              " => 0.049829483032227
-  "Time (s)               " => 4.9829483032227E-5
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 3: Generating combinations for A, B, C"
-array:5 [
-  "Number of possibilities" => 15
-  "Time (ms)              " => 0.22101402282715
-  "Time (s)               " => 0.00022101402282715
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 4: Generating combinations for A, B, C, D"
-array:5 [
-  "Number of possibilities" => 64
-  "Time (ms)              " => 1.11985206604
-  "Time (s)               " => 0.00111985206604
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 5: Generating combinations for A, B, C, D, E"
-array:5 [
-  "Number of possibilities" => 325
-  "Time (ms)              " => 7.5879096984863
-  "Time (s)               " => 0.0075879096984863
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 6: Generating combinations for A, B, C, D, E, F"
-array:5 [
-  "Number of possibilities" => 1956
-  "Time (ms)              " => 48.535108566284
-  "Time (s)               " => 0.048535108566284
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 7: Generating combinations for A, B, C, D, E, F, G"
-array:5 [
-  "Number of possibilities" => 13699
-  "Time (ms)              " => 386.21711730957
-  "Time (s)               " => 0.38621711730957
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 8: Generating combinations for A, B, C, D, E, F, G, H"
-array:5 [
-  "Number of possibilities" => 109600
-  "Time (ms)              " => 3581.2821388245
-  "Time (s)               " => 3.5812821388245
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-"Level 9: Generating combinations for A, B, C, D, E, F, G, H, I"
-array:5 [
-  "Number of possibilities" => 986409
-  "Time (ms)              " => 36741.584062576
-  "Time (s)               " => 36.741584062576
-  "Memory consumed        " => 320
-  "Peak Memory (Diff)     " => 0
-]
-"Level 10: Generating combinations for A, B, C, D, E, F, G, H, I, J"
-array:5 [
-  "Number of possibilities" => 9864100
-  "Time (ms)              " => 425331.70604706
-  "Time (s)               " => 425.33170604706
-  "Memory consumed        " => 0
-  "Peak Memory (Diff)     " => 0
-]
-```
-
-# Contributors
+## Contributors
 
 [Theodore R. Smith](https://www.phpexperts.pro/]) <theodore@phpexperts.pro>  
 GPG Fingerprint: 4BF8 2613 1C34 87AC D28F  2AD8 EB24 A91D D612 5690  

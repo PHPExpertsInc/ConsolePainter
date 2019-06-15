@@ -1,11 +1,11 @@
 {
-    "name": "phpexperts/skeleton",
-    "description": "A quick and easy standard PHP skeleton.",
+    "name": "phpexperts/console-painter",
+    "description": "A quick and easy library for colorizing and stylizing ANSI consoles.",
     "keywords": [
-        "universal package layout",
-        "standard package layout",
-        "new project",
-        "project layout"
+        "console colors",
+        "bash colors",
+        "bash formatting",
+        "terminal colors"
     ],
     "homepage": "https://www.phpexperts.pro/",
     "license": "MIT",
