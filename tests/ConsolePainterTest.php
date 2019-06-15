@@ -14,6 +14,7 @@
 
 namespace PHPExperts\ConsolePainter\Tests;
 
+use PHPExperts\Combinatorics\CombinationsGenerator;
 use PHPExperts\ConsolePainter\ConsolePainter;
 
 /** @testdox ConsolePainter: Stylization */

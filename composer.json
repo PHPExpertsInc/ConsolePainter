@@ -31,7 +31,8 @@
         "symfony/var-dumper": "*",
         "povils/phpmnd": "*",
         "squizlabs/php_codesniffer": "*",
-        "vimeo/psalm": "*"
+        "vimeo/psalm": "*",
+        "phpexperts/combinatorics": "^1.0"
     },
     "autoload": {
         "psr-4": {
