@@ -45,6 +45,7 @@ interface ConsoleArtistGuild
     public function white(?string $text = null): self;
 
     // --- Backgrounds --- //
+    public function onDefaultColor(?string $text = null): ConsoleArtistGuild;
     public function onBlack(?string $text = null): self;
     public function onRed(?string $text = null): self;
     public function onGreen(?string $text = null): self;
@@ -61,6 +62,7 @@ interface ConsoleArtistGuild
     public function onLightPurple(?string $text = null): self;
     public function onLightCyan(?string $text = null): self;
     public function onWhite(?string $text = null): self;
+
     public function text(string $text);
     public function __toString(): string;
 }
