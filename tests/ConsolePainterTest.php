@@ -63,6 +63,30 @@ class StylizationTest extends TestCase
         self::assertEquals($expected, (string) $actual);
     }
 
+    public function testCanBlinkText()
+    {
+        $expected = '\e[5mText\e[25m\e[0m';
+        $actual = $this->p->blink('Text');
+
+        self::assertEquals($expected, (string) $actual);
+    }
+
+    public function testCanHideText()
+    {
+        $expected = '\e[8mText\e[28m\e[0m';
+        $actual = $this->p->hidden('Text');
+
+        self::assertEquals($expected, (string) $actual);
+    }
+
+    public function testCanInvertTheTextStyle()
+    {
+        $expected = '\e[7mText\e[27m\e[0m';
+        $actual = $this->p->inverse('Text');
+
+        self::assertEquals($expected, (string) $actual);
+    }
+
     public function testAllCombinationsOfStylizationsWork()
     {
         // We need to clear the PHPUnit output to properly visually inspect the console colors.
