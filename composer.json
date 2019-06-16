@@ -44,10 +44,5 @@
     },
     "config": {
         "classmap-authoritative": true
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "php install.php"
-        ]
     }
 }

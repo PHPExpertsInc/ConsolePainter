@@ -36,12 +36,14 @@ $p = $painter;
 
 echo $p->bold()->italics('Bold italics') . ' ' . $p->red('Bold + Red') . "\n";
 echo "Normal text\n";
-echo $p->black()->onLightCyan('   Black on Light Green    ') . "\n";
+echo $p->black()->onLightCyan('   Black on Light Cyan     ') . "\n";
+echo $p->black()->onLightGreen('   Black on Light Green    ') . "\n";
 echo $p->white()->onGreen('   White on Green          ') . "\n";
 echo $p->bold()->white()->onGreen('   White on Green, Bolded  ') . "\n";
 echo $p->bold()->underlined()->white()->onBlue('White on Blue, Bolded + Underlined') . "\n";
 echo "\n";
 
+echo $p->onRed()->bold()->yellow('  WARNING!! WARNING!!  ') . "\n\n";
 
 /** Advanced */
 
