@@ -3,7 +3,7 @@
 /**
  * This file is part of Console Painter, a PHP Experts, Inc., Project.
  *
- * Copyright © 2019 PHP Experts, Inc.
+ * Copyright © 2019-2021 PHP Experts, Inc.
  * Author: Theodore R. Smith <theodore@phpexperts.pro>
  *   GPG Fingerprint: 4BF8 2613 1C34 87AC D28F  2AD8 EB24 A91D D612 5690
  *   https://www.phpexperts.pro/
@@ -63,6 +63,6 @@ interface ConsoleArtistGuild
     public function onLightCyan(?string $text = null): self;
     public function onWhite(?string $text = null): self;
 
-    public function text(string $text);
+    public function text(string $text): self;
     public function __toString(): string;
 }

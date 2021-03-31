@@ -3,7 +3,7 @@
 /**
  * This file is part of Console Painter, a PHP Experts, Inc., Project.
  *
- * Copyright © 2019 PHP Experts, Inc.
+ * Copyright © 2019-2021 PHP Experts, Inc.
  * Author: Theodore R. Smith <theodore@phpexperts.pro>
  *   GPG Fingerprint: 4BF8 2613 1C34 87AC D28F  2AD8 EB24 A91D D612 5690
  *   https://www.phpexperts.pro/
@@ -16,19 +16,17 @@ namespace PHPExperts\ConsolePainter;
 
 class ConsolePainter implements ConsoleArtistGuild, ANSIColors
 {
-    public $e = "\e";
+    public string $e = "\e";
 
-    /** @var array */
-    protected $applied = [];
+    /** @var string[] */
+    protected array $applied = [];
 
-    /** @var array */
-    protected $reverseApplied = [];
+    /** @var string[] */
+    protected array $reverseApplied = [];
 
-    /** @var string */
-    protected $line = '';
+    protected string $line = '';
 
-    /** @var string */
-    protected $text = '';
+    protected string $text = '';
 
     protected function applyFormat(string $apply, ?string $undo, ?string $text = null): ConsoleArtistGuild
     {
@@ -261,7 +259,7 @@ class ConsolePainter implements ConsoleArtistGuild, ANSIColors
         return $this->applyFormat(self::BG_WHITE, null, $text);
     }
 
-    public function text(string $text)
+    public function text(string $text): self
     {
         $this->applyFormat('', '', $text);
 
